@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: soft-serve-2
+spec:
+  destination:
+    name: ""
+    namespace: argocd
+    server: "https://74.220.23.219:6443"
+  source:
+    path: deployables/soft-serve
+    repoURL: "https://github.com/fabianmet/edgecase-yeet.git"
+    targetRevision: main
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

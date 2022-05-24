@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ssh-test
+spec:
+  containers:
+    - name: test
+      image: alpine
+      command:
+        - /bin/ash
+        - -c
+        - "apk add git openssh --no-cache && ssh-keyscan git >> /root/.ssh/known_hosts && ssh-keyscan github.com >> /root/.ssh/known_hosts &&tail -f /dev/null"
+      volumeMounts:
+        # a mount for site-data
+        - name: ssh
+          mountPath: /root/.ssh/id_ed25519
+          subPath: id_ed25519
+        # another mount for nginx config
+        - name: ssh
+          mountPath: /root/.ssh/id_ed25519.pub
+          subPath: id_ed25519.pub
+  volumes:
+    - name: ssh
+      secret:
+        secretName: gitsync-ssh
+        items:
+          - key: gitsync
+            path: id_ed25519
+            mode: 0600
+          - key: gitsync.pub
+            path: id_ed25519.pub
+            mode: 0600

@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: soft-serve-1
+spec:
+  destination:
+    name: ""
+    namespace: argocd
+    server: "https://kubernetes.default.svc"
+  source:
+    path: deployables/soft-serve
+    repoURL: "https://github.com/fabianmet/edgecase-yeet.git"
+    targetRevision: main
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
