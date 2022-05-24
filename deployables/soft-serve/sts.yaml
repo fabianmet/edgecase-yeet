@@ -24,7 +24,6 @@ spec:
       app: softserve
   serviceName: git
   replicas: 1
-  minReadySeconds: 10
   template:
     metadata:
       labels:
